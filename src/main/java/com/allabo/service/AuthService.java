@@ -16,4 +16,9 @@ public class AuthService {
 		AuthDao dao = sqlSession.getMapper(AuthDao.class);
 		return dao.signup(usersVO);
 	}
+	
+	public int login(UsersVO usersVO) {
+		AuthDao dao = sqlSession.getMapper(AuthDao.class);
+		return dao.login(usersVO);
+	}
 }

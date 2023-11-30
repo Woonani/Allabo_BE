@@ -25,6 +25,13 @@ public class AuthController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody UsersVO usersVO) {
+		System.out.println(usersVO);
+		int result = authService.login(usersVO);
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
 	@GetMapping("/test")
 	public ResponseEntity<?> test() {
 		System.out.println("test");
