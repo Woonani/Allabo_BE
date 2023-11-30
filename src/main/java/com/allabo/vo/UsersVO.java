@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class UsersVO {
-	private String id;
+	private String email;
 	private String name;
 	private String password;
-	private String email;
 	private String companyName;
+	private String profile;//회원정보페이지
 	
 }

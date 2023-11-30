@@ -3,6 +3,7 @@ package com.allabo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +13,7 @@ import com.allabo.service.AuthService;
 import com.allabo.vo.UsersVO;
 
 @RestController 
-@RequestMapping("/allabo/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 	@Autowired
 	private AuthService authService;
@@ -24,7 +25,7 @@ public class AuthController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 	
-	@PostMapping("/test")
+	@GetMapping("/test")
 	public ResponseEntity<?> test() {
 		System.out.println("test");
 		return new ResponseEntity<>("", HttpStatus.OK);
