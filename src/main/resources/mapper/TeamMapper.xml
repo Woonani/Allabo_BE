@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.dao.TeamDao">
+	<insert id="insertTeam" parameterType="Map" >
+		insert into team ( 
+			team_name
+			, created_at
+			, description
+		) values (
+		, #{teamName}
+		, NOW()
+		, #{description}
+		)
+	</insert>
+	
+	<select id="selectTeamList" resultType="com.allabo.vo.TeamVO">
+		select team_seq, team_name, created_at, description
+		from team T join users_team UT 	
+			on T.team_seq = UT.team_seq 
+		where UT.user_seq = #{userId}
+	</select>
+	
+	<update id="updateTeam" >
+		update team
+		set 
+			team_name = # {teamName},
+			description = #{description}
+		where team_seq = #{teamId}
+	</update>
+	
+	<delete id="deleteTeam" >
+		delete from team
+		where team_seq = #{teamId}
+	</delete>
+	
+</mapper>
