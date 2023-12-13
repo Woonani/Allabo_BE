@@ -30,4 +30,12 @@
 	<select id="login" resultType="int">
 		select count(*) from users where email=#{email} and password=#{password}
 	</select>
+	
+	<!-- 로그인유저정보 -->
+	<select id="loginUser" >
+		select 	
+			email, company, password, profile_src, user_name
+ 		from users 
+ 		where email=#{email}
+	</select>
 </mapper>
