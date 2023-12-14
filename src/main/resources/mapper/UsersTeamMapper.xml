@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.dao.UsersTeamDao">
+
+	<insert id="insertUsersTeam" parameterType="com.allabo.vo.UsersTeamVO" >
+		insert into users_team ( 
+			userid
+			, team_seq
+			, role
+			, nick
+		) values (
+		 #{userid}
+		 , #{teamId}
+		 , #{role}
+		 , #{nick}
+		)		 
+	</insert>
+	
+	<!-- 테이블, 함수명, vo >>> users_team으로 수정!! 꼭!!
+	 <select id="selectTeamList" resultType="com.allabo.vo.TeamVO">
+		select team_seq, team_name, created_at, description
+		from team T join users_team UT 	
+			on T.team_seq = UT.team_seq 
+		where UT.userid = #{userid}
+	</select>
+	
+	<select id="selectTeam" resultType="com.allabo.vo.TeamVO">
+		select team_seq, team_name, created_at, description
+		from team T join users_team 
+		where team_seq = #{teamId}
+	</select>
+	
+	<update id="updateTeam" >
+		update team
+		set 
+			team_name = # {teamName},
+			description = #{description}
+		where team_seq = #{teamId}
+	</update>
+	
+	<delete id="deleteTeam" >
+		delete from team
+		where team_seq = #{teamId}
+	</delete> -->
+	
+</mapper>
