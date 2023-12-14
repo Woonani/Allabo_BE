@@ -24,14 +24,14 @@ public class AuthService {
 		return dao.login(usersVO);
 	}
 	
-	public UsersVO getLoginUserInfo(String email) {
+	public UsersVO getLoginUserInfo(String userid) {
 		AuthDao dao = sqlSession.getMapper(AuthDao.class);
-		HashMap<String, String> data = dao.loginUser(email);
+		HashMap<String, String> data = dao.loginUser(userid);
 		System.out.println(data);
 		UsersVO userInfo  = new UsersVO();
 		userInfo.setCompanyName(data.get("company"));
 //		userInfo.setCreatedAt(data.get("created_at"));
-		userInfo.setEmail(data.get("email"));
+		userInfo.setUserid(data.get("userid"));
 		userInfo.setPassword(data.get("password"));
 		userInfo.setProfile(data.get("profile_src"));
 		userInfo.setName(data.get("user_name"));

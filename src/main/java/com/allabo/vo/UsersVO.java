@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UsersVO {
 //	private String userId; // user_seq;
-	private String email;
+	private String userid;
 	private String password; 
 	private String name; // user_name
 	private String companyName; //company
