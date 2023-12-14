@@ -15,14 +15,19 @@ public class TeamService {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public int addTeam(Map<String, String> data) {
+	public int addTeam(TeamVO team) {
 		TeamDao dao = sqlSession.getMapper(TeamDao.class);
-		return dao.insertTeam(data);
+		return dao.insertTeam(team);
 	}
 	
-	public List<TeamVO> getTeam(String userId) {
+	public List<TeamVO> getTeamList(String userId) {
 		TeamDao dao = sqlSession.getMapper(TeamDao.class);
 		return dao.selectTeamList(userId);
+	}
+	
+	public TeamVO getTeam(String teamId) {
+		TeamDao dao = sqlSession.getMapper(TeamDao.class);
+		return dao.selectTeam(teamId);
 	}
 	
 	public int modifyTeam(TeamVO teamVO) {
