@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.allabo.dao.TeamDao">
+<mapper namespace="com.allabo.dao.UsersTeamDao">
 
-	<insert id="insertTeam" parameterType="com.allabo.vo.TeamVO" useGeneratedKeys="true"  keyProperty="teamId">
-		insert into team ( 
-			team_name
-			, created_at
-			, description
+	<insert id="insertUsersTeam" parameterType="com.allabo.vo.UsersTeamVO" >
+		insert into users_team ( 
+			userid
+			, team_seq
+			, role
+			, nick
 		) values (
-		 #{teamName}
-		, NOW()
-		, #{description}
+		 #{userid}
+		 , #{teamId}
+		 , #{role}
+		 , #{nick}
 		)		 
 	</insert>
 	
-	<select id="selectTeamList" resultType="com.allabo.vo.TeamVO">
+	<!-- 테이블, 함수명, vo >>> users_team으로 수정!! 꼭!!
+	 <select id="selectTeamList" resultType="com.allabo.vo.TeamVO">
 		select team_seq, team_name, created_at, description
 		from team T join users_team UT 	
 			on T.team_seq = UT.team_seq 
@@ -38,6 +41,6 @@
 	<delete id="deleteTeam" >
 		delete from team
 		where team_seq = #{teamId}
-	</delete>
+	</delete> -->
 	
 </mapper>
