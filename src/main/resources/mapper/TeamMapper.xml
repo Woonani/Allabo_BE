@@ -14,11 +14,19 @@
 		)		 
 	</insert>
 	
+	<!-- join으로 user의 팀정보 가져오기 -->
 	<select id="selectTeamList" resultType="com.allabo.vo.TeamVO">
-		select team_seq, team_name, created_at, description
-		from team T join users_team UT 	
-			on T.team_seq = UT.team_seq 
-		where UT.userid = #{userid}
+		SELECT 
+			t.team_seq AS  teamId
+			, t.team_name AS teamName
+			, t.created_at  AS createdAt
+			, t.description  AS description
+			, ut.userid AS userid
+			, ut.role AS role
+			, ut.nick  AS nick
+		FROM team t JOIN users_team ut 
+		ON t.team_seq = ut.team_seq 
+		WHERE ut.userid =  #{userid}
 	</select>
 	
 	<select id="selectTeam" resultType="com.allabo.vo.TeamVO">

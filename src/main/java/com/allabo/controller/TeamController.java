@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,15 @@ public class TeamController {
 	
 	@Autowired
 	private UsersTeamService usersTeamService;
+	
+	@GetMapping("/list/{userid}")
+	public ResponseEntity<?> getTeamListById(@PathVariable String userid){
+		List<TeamVO> data = new ArrayList<>();
+		data = teamService.getTeamList(userid);
+		System.out.println("teamList: "+ data);
+
+		return new ResponseEntity<>(data, HttpStatus.OK);
+	}
 	
 	// 트랜젝션 어노테이션 추가 
 	// 메서드 내에서 예외가 발생하면 teamService.addTeam 및 usersTeamService.addUsersTeam 모두 롤백
@@ -55,8 +66,7 @@ public class TeamController {
 			if(result2 == 1) {
 				return new ResponseEntity<>(usersTeam, HttpStatus.OK);
 			}else {
-//				result2 실패시 >> result1 rollback
-//				RuntimeException이 롤백을 트리거
+//				result2 실패시 >> result1 rollback >> RuntimeException이 롤백을 트리거
 				throw new RuntimeException("UsersTeam 추가 실패");
 			}
 		}else {
