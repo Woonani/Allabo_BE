@@ -27,6 +27,7 @@
 		FROM team t JOIN users_team ut 
 		ON t.team_seq = ut.team_seq 
 		WHERE ut.userid =  #{userid}
+		ORDER BY t.created_at DESC
 	</select>
 	
 	<select id="selectTeam" resultType="com.allabo.vo.TeamVO">
