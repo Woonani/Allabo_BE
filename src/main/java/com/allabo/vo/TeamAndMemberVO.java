@@ -1,5 +1,7 @@
 package com.allabo.vo;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -15,4 +17,6 @@ public class TeamAndMemberVO {
 	private String nick;
 	private String profileSrc; //profile_src
 	private String visible;
+	// 멤버리스트
+	private List<String> invitees;
 }
