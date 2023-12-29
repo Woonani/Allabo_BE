@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.dao.MemberDao">
+
+	<insert id="insertMember" parameterType="com.allabo.vo.TeamAndMemberVO" useGeneratedKeys="true"  keyProperty="utSeq">
+		insert into users_team ( 
+			user_id
+			, team_seq
+			, role
+			, nick
+		) values (
+		 #{userId}
+		 , #{teamSeq}
+		 , #{role}
+		 , #{nick}
+		)		 
+	</insert>
+	
+	
+	
+</mapper>

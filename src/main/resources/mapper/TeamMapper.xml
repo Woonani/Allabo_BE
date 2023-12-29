@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.allabo.dao.TeamDao">
 
-	<insert id="insertTeam" parameterType="com.allabo.vo.TeamVO" useGeneratedKeys="true"  keyProperty="teamId">
+	<insert id="insertTeamAndGetTeamSeq" parameterType="com.allabo.vo.TeamAndMemberVO" useGeneratedKeys="true"  keyProperty="teamSeq">
 		insert into team ( 
 			team_name
 			, created_at
@@ -14,39 +14,49 @@
 		)		 
 	</insert>
 	
-	<!-- join으로 user의 팀정보 가져오기 -->
-	<select id="selectTeamList" resultType="com.allabo.vo.TeamVO">
+	<select id="selectOneTeam" resultType="com.allabo.vo.TeamAndMemberVO">
 		SELECT 
-			t.team_seq AS  teamId
-			, t.team_name AS teamName
-			, t.created_at  AS createdAt
-			, t.description  AS description
-			, ut.userid AS userid
-			, ut.role AS role
-			, ut.nick  AS nick
+		    ut.ut_seq AS utSeq
+		    , ut.user_id AS userId
+		    , ut.team_seq AS teamSeq
+		    , ut.role AS role
+		    , ut.nick AS nick
+		    , t.team_name AS teamName
+		    , t.created_at AS createdAt
+		    , t.description AS description
+	    FROM (select * from users_team where ut_seq = #{utSeq}) ut 
+    	JOIN team t 
+    	ON ut.team_seq = t.team_seq
+	</select>
+	
+	<select id="selectTeamList" resultType="com.allabo.vo.TeamAndMemberVO">
+		SELECT 
+			ut.ut_seq AS utSeq
+		    , ut.user_id AS userId
+		    , ut.team_seq AS teamSeq
+		    , ut.role AS role
+		    , ut.nick AS nick
+		    , t.team_name AS teamName
+		    , t.created_at AS createdAt
+		    , t.description AS description
 		FROM team t JOIN users_team ut 
 		ON t.team_seq = ut.team_seq 
-		WHERE ut.userid =  #{userid}
-		ORDER BY t.created_at DESC
+		WHERE ut.user_id =  #{userId}
+		ORDER BY createdAt DESC
 	</select>
 	
-	<select id="selectTeam" resultType="com.allabo.vo.TeamVO">
-		select team_seq, team_name, created_at, description
-		from team T join users_team 
-		where team_seq = #{teamId}
-	</select>
-	
-	<update id="updateTeam" >
+	<update id="updateTeam" parameterType="com.allabo.vo.TeamVO">
 		update team
 		set 
-			team_name = # {teamName},
+			team_name = #{teamName},
 			description = #{description}
-		where team_seq = #{teamId}
+		where team_seq = #{teamSeq}
 	</update>
 	
 	<delete id="deleteTeam" >
 		delete from team
-		where team_seq = #{teamId}
+		where team_seq = #{teamSeq}
 	</delete>
-	
+
+
 </mapper>

@@ -31,7 +31,7 @@ public class AuthService {
 		UsersVO userInfo  = new UsersVO();
 		userInfo.setCompanyName(data.get("company"));
 //		userInfo.setCreatedAt(data.get("created_at"));
-		userInfo.setUserid(data.get("userid"));
+		userInfo.setUserId(data.get("user_id"));
 		userInfo.setPassword(data.get("password"));
 		userInfo.setProfile(data.get("profile_src"));
 		userInfo.setName(data.get("user_name"));

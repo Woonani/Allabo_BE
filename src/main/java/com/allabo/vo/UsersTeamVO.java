@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class UsersTeamVO {
-	private String userid;
-	private int teamId; //team_seq;
+	private String userId; // user_id
+	private int teamSeq; //team_seq;
 	private int role; //team_seq;
 	private String nick;
 

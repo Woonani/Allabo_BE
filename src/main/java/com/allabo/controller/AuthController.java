@@ -35,10 +35,10 @@ public class AuthController {
 		int result = authService.login(usersVO);
 		if(result == 1) {
 			//토큰 발급
-			String token = JwtUtil.generateToken(usersVO.getUserid());
+			String token = JwtUtil.generateToken(usersVO.getUserId());
 			System.out.println("token : " + token);
 			
-			UsersVO loginuser = authService.getLoginUserInfo(usersVO.getUserid());
+			UsersVO loginuser = authService.getLoginUserInfo(usersVO.getUserId());
 			Map<String, Object> data = new HashMap<>();
 			data.put("token", token);
 			data.put("loginuser", loginuser);
