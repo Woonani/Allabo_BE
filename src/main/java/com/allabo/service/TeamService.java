@@ -1,7 +1,6 @@
 package com.allabo.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import com.allabo.dao.MemberDao;
 import com.allabo.dao.TeamDao;
 import com.allabo.vo.TeamAndMemberVO;
 import com.allabo.vo.TeamVO;
-import com.allabo.vo.UsersTeamVO;
 
 @Service
 public class TeamService {
@@ -56,6 +54,7 @@ public class TeamService {
 	public TeamAndMemberVO modifyTeam(int utSeq, TeamVO data) {
 		TeamDao dao = sqlSession.getMapper(TeamDao.class);
 		int rslt1 = dao.updateTeam(data);
+		System.out.println("rslt1"+rslt1);
 		TeamAndMemberVO rslt2 = dao.selectOneTeam(utSeq);
 		return rslt2;
 	}
