@@ -16,6 +16,10 @@
 		)		 
 	</insert>
 	
+	<select id="selectUserListById" resultType="com.allabo.vo.UsersVO">
+		select user_id, user_name as name from users where user_id like concat('%', #{userId}, '%')
+	</select>
+	
 	
 	
 </mapper>
