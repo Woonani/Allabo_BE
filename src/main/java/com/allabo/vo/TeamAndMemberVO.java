@@ -18,5 +18,5 @@ public class TeamAndMemberVO {
 	private String profileSrc; //profile_src
 	private String visible;
 	// 멤버리스트
-	private List<String> invitees;
+	private List<String> inviteelist;
 }

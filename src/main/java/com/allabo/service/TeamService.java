@@ -35,7 +35,7 @@ public class TeamService {
 		System.out.println("ut insert 후 ut_seq 확인 : " + data);
 		
 		//3. 멤버 정보 setting, insert
-		memberService.inviteMembers(data.getTeamSeq(), data.getInvitees());
+		memberService.inviteMembers(data.getTeamSeq(), data.getInviteelist());
 		
 		//3. insert한 Team, Member정보 TeamAndMemberVO로 반환
 		// 그런데 1~2 과정 성공후 [원본 그대로 반환] vs [insert한 값 db에서 꺼내오기]
