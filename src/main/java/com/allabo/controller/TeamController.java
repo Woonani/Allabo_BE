@@ -2,7 +2,9 @@ package com.allabo.controller;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.allabo.service.MemberService;
 import com.allabo.service.TeamService;
 import com.allabo.vo.TeamAndMemberVO;
 import com.allabo.vo.TeamVO;
@@ -25,6 +28,8 @@ import com.allabo.vo.TeamVO;
 public class TeamController {
 	@Autowired
 	private TeamService teamService;
+	@Autowired
+	private MemberService memberService;
 	
 	@GetMapping("/list/{userId}")
 	public ResponseEntity<?> getTeamListById(@PathVariable String userId){
@@ -61,6 +66,23 @@ public class TeamController {
 		int result = teamService.removeTeam(teamSeq);
 		// result = 1 팀이 삭제되었습니다. , result = 0 삭제할 팀이 없습니다...?
 		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+	
+	@GetMapping("/home/{teamSeq}")
+	public ResponseEntity<?> getTeamHomeInfo(@PathVariable int teamSeq){
+		Map<String, List<?>> data = new HashMap<>();
+		// 멤버목록
+		List<TeamAndMemberVO> memberList = new ArrayList<>();
+		memberList = memberService.getMemberList(teamSeq);
+		data.put("memberList", memberList);
+		
+		// 게시판공지
+		data.put("boardList", null);
+		
+		// 일정
+		data.put("scheduleList", null);
+		
+		return new ResponseEntity<>(data, HttpStatus.OK);
 	}
 	
 }
