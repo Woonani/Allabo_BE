@@ -32,6 +32,7 @@ public class AuthController {
 	public ResponseEntity<?> login(@RequestBody UsersVO usersVO) {
 		System.out.println(usersVO);
 		int result = authService.login(usersVO);
+		// 아래는 서비스 로직 >> 서비스로 빼기!
 		if(result == 1) {
 			//토큰 발급
 			String token = JwtUtil.generateToken(usersVO.getUserId());
