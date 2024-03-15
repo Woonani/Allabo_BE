@@ -42,6 +42,7 @@
 		FROM team t JOIN users_team ut 
 		ON t.team_seq = ut.team_seq 
 		WHERE ut.user_id =  #{userId}
+		AND ut.role != 0
 		ORDER BY createdAt DESC
 	</select>
 	
