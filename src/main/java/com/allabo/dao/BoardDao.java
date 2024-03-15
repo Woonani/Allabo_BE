@@ -7,9 +7,9 @@ import com.allabo.vo.PostVO;
         
 public interface BoardDao {
 	
-	public int insertPostAndGetPostSeq(PostVO team);
+	public int insertPostAndGetPostSeq(PostVO post);
 	
-	public PostVO selectOnePost(int utSeq);
+	public PostVO selectOnePost(int postSeq);
 	
 	public List<PostVO> selectPostList (int teamSeq, String tag, int noPerPage, int page, String searchTag, String searchWord  );
 
@@ -18,7 +18,9 @@ public interface BoardDao {
 	// 입력된 검색어로 select
 	public List<PostVO> selectPostListBySearch (int teamSeq, String searchTag, String searchWord); //, String tag, int noPerPage, int page );
 
-	public int updatePost(PostVO teamVO);
+	public int updatePost(PostVO post);
 	
-	public int deletePost(int teamSeq);
+	public int updateViewCount(int postSeq);
+		
+	public int deletePost(int postSeq);
 }

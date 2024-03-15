@@ -8,7 +8,6 @@
 			, content
 			, created_at
 			, view_count
-			, likes
 			, file_seq
 			, ut_seq
 		) VALUES (
@@ -17,7 +16,6 @@
 			,#{content}
 			,NOW()
 			,0
-			,0
 			,#{fileSeq}
 			,#{utSeq}
 		)
@@ -25,19 +23,23 @@
 	
 	<select id="selectOnePost" resultType="com.allabo.vo.PostVO">
 		SELECT 
-			post_seq
-			, tag
-			, title
-			, content
-			, created_at
-			, updated_at
-			, view_count
-			, likes
-			, file_seq
-			, ut_seq 
-		FROM posts 
-		WHERE post_seq = #{postSeq} 
-		
+			p.post_seq
+			, p.tag
+			, p.title
+			, p.content
+			, p.created_at
+			, p.updated_at
+			, p.view_count
+			, p.file_seq
+			, p.ut_seq 
+			, ut.user_id
+			, ut.team_seq AS teamSeq
+			, ut.role
+			, ut.nick
+		FROM posts p
+		LEFT JOIN users_team ut
+		on p.ut_seq = ut.ut_seq
+		WHERE p.post_seq = #{postSeq} 		
 	</select>
 	
 	<select id="selectPostList" resultType="com.allabo.vo.PostVO">
@@ -50,13 +52,14 @@
 				, pn.created_at AS createdAt
 				, pn.updated_at AS updatedAt
 				, pn.view_count AS viewCount
-				, pn.likes AS likes
 				, pn.file_seq AS fileSeq
 				, pn.ut_seq   AS utSeq
 				, pn.user_id AS userId
 				, pn.team_seq AS teamSeq
 				, pn.role AS role
 				, pn.nick AS nick
+				, pn.totalComments AS totalComments
+				, pn.totalLikes AS totalLikes
 		FROM (
 			SELECT 
 				row_number() OVER(ORDER BY p.created_at DESC) AS no
@@ -67,13 +70,14 @@
 				, p.created_at
 				, p.updated_at
 				, p.view_count
-				, p.likes
 				, p.file_seq
 				, p.ut_seq  
 				, ut.user_id
 				, ut.team_seq
 				, ut.role
 				, ut.nick
+				,(select count(cmmnt_seq) from comments where post_seq=p.post_seq) AS totalComments
+				,(select count(like_seq) from likes where post_seq=p.post_seq) AS totalLikes
 			FROM posts p
 				LEFT JOIN users_team ut 
 				ON p.ut_seq = ut.ut_seq 
@@ -132,14 +136,23 @@
 		UPDATE posts
 		SET 
 			tag = #{tag},
-			title = #{title}
+			title = #{title},
 			content = #{content},
 			updated_at = NOW(),
 			file_seq = #{fileSeq}
 		WHERE post_seq = #{postSeq}
 	</update>
 	
-	<!-- 좋아요 update, 조회수 update, 게시판tag insert/update -->
+	<!-- 조회수 update -->
+	<update id="updateViewCount">
+		UPDATE posts
+		SET 
+			view_count = view_count+1
+		WHERE post_seq = #{param1}
+	</update>
+	
+	
+	<!-- 조회수 update 게시판tag insert/update -->
 	<!-- 댓글 insert/update -->
 	
 	<delete id="deletePost" parameterType="com.allabo.vo.PostVO">

@@ -13,7 +13,6 @@ public class PostVO {
 	private Timestamp createdAt;
 	private Timestamp updatedAt;
 	private int viewCount;
-	private int likes;
 	private int fileSeq;
 	private int utSeq;
 	// 추가
@@ -22,4 +21,8 @@ public class PostVO {
 	private int teamSeq;
 	private int role;
 	private String nick;
+	// join-조회수, 추천수 정보
+	private int totalComments;
+	private int totalLikes;
+
 }
