@@ -25,7 +25,7 @@ public class TeamService {
 //		1. 팀정보 insert
 		TeamDao teamDao = sqlSession.getMapper(TeamDao.class);
 		teamDao.insertTeamAndGetTeamSeq(data);
-		System.out.println("t insert 후 team_seq 확인 : " + data);
+		System.out.println("insert 후 team_seq 확인 : " + data);
 
 	    //2. 호스트정보 setting, insert
 		data.setRole(1);

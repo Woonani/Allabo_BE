@@ -21,13 +21,21 @@
 	</select>
 	
 	<select id="selectMemberListById" resultType="com.allabo.vo.TeamAndMemberVO">
-		select ut.ut_seq, ut.user_id, ut.team_seq, ut.role, ut.nick, u.profile_src, u.visible  
-		from (select * from users_team 
-		where team_seq = #{teamSeq}) ut join users u 
-		on ut.user_id = u.user_id
-		order by role
+		SELECT ut.ut_seq, ut.user_id, ut.team_seq, ut.role, ut.nick, u.profile_src, u.visible  
+		FROM (SELECT * FROM users_team 
+		WHERE team_seq = #{teamSeq}
+		AND role != 0
+		) ut JOIN users u 
+		ON ut.user_id = u.user_id
+		ORDER BY role
 	</select>
 	
-	
+		
+	<update id="updateMemberLeaving" >
+		update users_team
+		set 
+			role = 0
+		where ut_seq = #{utSeq}
+	</update>
 	
 </mapper>

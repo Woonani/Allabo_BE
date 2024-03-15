@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.allabo.dao.MemberDao;
+import com.allabo.dao.TeamDao;
 import com.allabo.vo.TeamAndMemberVO;
 import com.allabo.vo.UsersTeamVO;
 import com.allabo.vo.UsersVO;
@@ -46,6 +47,12 @@ public class MemberService {
 		MemberDao dao = sqlSession.getMapper(MemberDao.class);
 		return dao.selectMemberListById(teamSeq);
 //		return null;
+	}
+	
+	
+	public int leaveTeam(int utSeq) {
+		MemberDao dao = sqlSession.getMapper(MemberDao.class);
+		return dao.updateMemberLeaving(utSeq);
 	}
 	
 }

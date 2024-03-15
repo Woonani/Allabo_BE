@@ -13,4 +13,7 @@ public interface MemberDao {
 	public List<TeamAndMemberVO> selectMemberListById(int teamSeq);
 	
 //	public int deleteUsersTeam(String userId, String teamId);
+	
+	public int updateMemberLeaving(int utSeq);
+	
 }

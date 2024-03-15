@@ -1,0 +1,65 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.dao.CommentDao">
+<insert id="insertCommentAndGetSeq" parameterType="com.allabo.vo.CommentVO" useGeneratedKeys="true"  keyProperty="cmmntSeq" >
+		INSERT INTO comments (
+			comment
+			, created_at
+			, user_id
+			, post_seq
+			, reply_seq
+		) VALUES (
+			#{comment}
+			,NOW()
+			,#{userId}
+			,#{postSeq}
+			,#{replySeq}
+		)
+	</insert>
+	
+	<select id="selectCommentList" resultType="com.allabo.vo.CommentVO">
+		SELECT 
+			 c.cmmnt_seq AS cmmntSeq
+			 ,c.comment
+			 ,u.user_id AS userId
+			 ,u.nick
+			 ,u.role
+			 ,c.created_at AS createdAt
+			 ,c.reply_seq AS replySeq
+		FROM comments c
+		 LEFT JOIN (SELECT ut.user_id, ut.role, ut.nick FROM users_team ut WHERE team_seq = #{param1} ) u
+		 ON c.user_id = u.user_id
+		WHERE c.post_seq = #{param2} 
+		ORDER BY c.created_at
+		
+	</select>
+	
+	<select id="selectOneComment" resultType="com.allabo.vo.CommentVO">
+		SELECT 
+			 c.cmmnt_seq AS cmmntSeq
+			 ,c.comment
+			 ,ut.user_id AS userId
+			 ,ut.nick
+			 ,ut.role
+			 ,c.created_at AS createdAt
+			 ,c.reply_seq AS replySeq 
+		FROM (
+				SELECT 
+					cmmnt_seq
+					,comment
+					,created_at
+					,reply_seq
+					,post_seq
+				FROM comments 
+				WHERE cmmnt_seq = #{param}
+			) c 
+		LEFT JOIN posts p 
+		ON p.post_seq = c.post_seq 
+		LEFT JOIN users_team ut
+		ON p.ut_seq = ut.ut_seq		
+	</select>
+	
+	<delete id="deleteComment" >
+		DELETE FROM comments
+		WHERE cmmnt_seq = #{param}
+	</delete>
+</mapper>
