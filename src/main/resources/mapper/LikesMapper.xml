@@ -1,0 +1,26 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.dao.LikesDao">
+	<select  id="selectUserAndcountLikes" resultType="com.allabo.vo.LikesVO">
+		SELECT 
+		    COUNT(like_seq) AS totalLikes,
+		    COUNT(CASE WHEN user_id = #{param1} THEN 1 END) AS userLike
+		FROM likes 
+		WHERE post_seq = #{param2}
+	</select>
+	
+	<insert id="insertLike" parameterType="com.allabo.vo.LikesVO">
+		INSERT INTO likes (
+			user_id
+			, post_seq
+		) VALUES (
+			#{userId}
+			,#{postSeq}
+		)	
+	</insert>
+
+	<delete id="deleteLike" parameterType="com.allabo.vo.LikesVO">
+		DELETE FROM likes 
+		WHERE post_seq = #{postSeq}
+			AND user_id = #{userId}	
+	</delete>
+</mapper>

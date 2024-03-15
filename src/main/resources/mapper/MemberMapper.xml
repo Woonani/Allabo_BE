@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.dao.MemberDao">
+
+	<insert id="insertMember" parameterType="com.allabo.vo.TeamAndMemberVO" useGeneratedKeys="true"  keyProperty="utSeq">
+		insert into users_team ( 
+			user_id
+			, team_seq
+			, role
+			, nick
+		) values (
+		 #{userId}
+		 , #{teamSeq}
+		 , #{role}
+		 , #{nick}
+		)		 
+	</insert>
+	
+	<select id="selectUserListById" resultType="com.allabo.vo.UsersVO">
+		select user_id, user_name as name from users where user_id like concat(#{userId}, '%')
+	</select>
+	
+	<select id="selectMemberListById" resultType="com.allabo.vo.TeamAndMemberVO">
+		SELECT ut.ut_seq, ut.user_id, ut.team_seq, ut.role, ut.nick, u.profile_src, u.visible  
+		FROM (SELECT * FROM users_team 
+		WHERE team_seq = #{teamSeq}
+		AND role != 0
+		) ut JOIN users u 
+		ON ut.user_id = u.user_id
+		ORDER BY role
+	</select>
+	
+		
+	<update id="updateMemberLeaving" >
+		update users_team
+		set 
+			role = 0
+		where ut_seq = #{utSeq}
+	</update>
+	
+</mapper>

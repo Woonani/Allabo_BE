@@ -5,14 +5,14 @@
 	<!-- 회원가입 -->
 	<insert id="signup">
 		insert into users ( 
-			email
+			user_id
 			, password
 			, user_name
 			, company
 			, created_at
 			, visible
 		) values (
-			#{email}
+			#{userId}
 			, #{password}
 			, #{name}
 			, #{companyName}
@@ -20,14 +20,22 @@
 			, 1
 		)
 	</insert>
+
+	<!-- 이메일(아이디) 중복 확인 -->
+	<select id="emailCheck" resultType="int">
+		select count(*) from users where user_id=#{userId}
+	</select>
 	
 	<!-- 로그인 -->
 	<select id="login" resultType="int">
-		select count(*) from users where email=#{email} and password=#{password}
+		select count(*) from users where user_id=#{userId} and password=#{password}
 	</select>
 	
-	<!-- 아이디 중복 확인 -->
-	<select id="idCheck" resultType="int">
-		select count(*) from users where email=#{email}
+	<!-- 로그인유저정보 -->
+	<select id="loginUser" >
+		select 	
+			user_id, company, password, profile_src, user_name
+ 		from users 
+ 		where user_id=#{userId}
 	</select>
 </mapper>

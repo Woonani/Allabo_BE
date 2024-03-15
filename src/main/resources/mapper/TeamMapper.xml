@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.allabo.dao.TeamDao">
+
+	<insert id="insertTeamAndGetTeamSeq" parameterType="com.allabo.vo.TeamAndMemberVO" useGeneratedKeys="true"  keyProperty="teamSeq">
+		insert into team ( 
+			team_name
+			, created_at
+			, description
+		) values (
+		 #{teamName}
+		, NOW()
+		, #{description}
+		)		 
+	</insert>
+	
+	<select id="selectOneTeam" resultType="com.allabo.vo.TeamAndMemberVO">
+		SELECT 
+		    ut.ut_seq AS utSeq
+		    , ut.user_id AS userId
+		    , ut.team_seq AS teamSeq
+		    , ut.role AS role
+		    , ut.nick AS nick
+		    , t.team_name AS teamName
+		    , t.created_at AS createdAt
+		    , t.description AS description
+	    FROM (select * from users_team where ut_seq = #{utSeq}) ut 
+    	JOIN team t 
+    	ON ut.team_seq = t.team_seq
+	</select>
+	
+	<select id="selectTeamList" resultType="com.allabo.vo.TeamAndMemberVO">
+		SELECT 
+			ut.ut_seq AS utSeq
+		    , ut.user_id AS userId
+		    , ut.team_seq AS teamSeq
+		    , ut.role AS role
+		    , ut.nick AS nick
+		    , t.team_name AS teamName
+		    , t.created_at AS createdAt
+		    , t.description AS description
+		FROM team t JOIN users_team ut 
+		ON t.team_seq = ut.team_seq 
+		WHERE ut.user_id =  #{userId}
+		AND ut.role != 0
+		ORDER BY createdAt DESC
+	</select>
+	
+	<update id="updateTeam" parameterType="com.allabo.vo.TeamVO">
+		update team
+		set 
+			team_name = #{teamName},
+			description = #{description}
+		where team_seq = #{teamSeq}
+	</update>
+	
+	<delete id="deleteTeam" >
+		delete from team
+		where team_seq = #{teamSeq}
+	</delete>
+
+
+</mapper>

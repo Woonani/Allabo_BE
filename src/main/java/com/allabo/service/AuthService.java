@@ -1,5 +1,7 @@
 package com.allabo.service;
 
+import java.util.HashMap;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,5 +17,27 @@ public class AuthService {
 	public int signup(UsersVO usersVO) {
 		AuthDao dao = sqlSession.getMapper(AuthDao.class);
 		return dao.signup(usersVO);
+	}
+	
+	public int login(UsersVO usersVO) {
+		AuthDao dao = sqlSession.getMapper(AuthDao.class);
+		return dao.login(usersVO);
+	}
+	
+	public UsersVO getLoginUserInfo(String userid) {
+		AuthDao dao = sqlSession.getMapper(AuthDao.class);
+		HashMap<String, String> data = dao.loginUser(userid);
+		System.out.println(data);
+		UsersVO userInfo  = new UsersVO();
+		userInfo.setCompanyName(data.get("company"));
+//		userInfo.setCreatedAt(data.get("created_at"));
+		userInfo.setUserId(data.get("user_id"));
+		userInfo.setPassword(data.get("password"));
+		userInfo.setProfile(data.get("profile_src"));
+		userInfo.setName(data.get("user_name"));
+//		userInfo.setUserId(data.get("user_seq"));
+//		userInfo.setVisible(data.get("visible"));
+
+		return userInfo;
 	}
 }
